@@ -3,6 +3,9 @@ package fr.bamlab.reactnativenumberpickerdialog;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.NumberPicker;
@@ -14,6 +17,7 @@ import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +58,8 @@ class RNNumberPickerDialogModule extends ReactContextBaseJavaModule {
         picker.setWrapSelectorWheel(false);
         picker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
+        this.setNumberPickerDividerColour(picker);
+
         new AlertDialog.Builder(getCurrentActivity())
             .setTitle(options.getString("title"))
             .setMessage(options.getString("message"))
@@ -70,5 +76,30 @@ class RNNumberPickerDialogModule extends ReactContextBaseJavaModule {
             })
             .create()
             .show();
+    }
+
+    private void setNumberPickerDividerColour(NumberPicker number_picker){
+        final int count = number_picker.getChildCount();
+
+        for(int i = 0; i < count; i++){
+
+            try{
+                Field dividerField = number_picker.getClass().getDeclaredField("mSelectionDivider");
+                dividerField.setAccessible(true);
+                ColorDrawable colorDrawable = new ColorDrawable(context.getResources().getColor(R.color.rn_number_picker_divider_color));
+                dividerField.set(number_picker,colorDrawable);
+
+                number_picker.invalidate();
+            }
+            catch(NoSuchFieldException e){
+                Log.w("setNumberPickerTxtClr", e);
+            }
+            catch(IllegalAccessException e){
+                Log.w("setNumberPickerTxtClr", e);
+            }
+            catch(IllegalArgumentException e){
+                Log.w("setNumberPickerTxtClr", e);
+            }
+        }
     }
 }
