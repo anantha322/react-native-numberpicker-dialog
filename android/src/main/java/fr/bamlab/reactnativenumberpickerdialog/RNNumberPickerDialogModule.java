@@ -57,6 +57,7 @@ class RNNumberPickerDialogModule extends ReactContextBaseJavaModule {
         picker.setDisplayedValues(displayedValues);
         picker.setWrapSelectorWheel(false);
         picker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        picker.setValue(options.getInt("value"));
 
         this.setNumberPickerDividerColour(picker);
 

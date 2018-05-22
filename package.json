@@ -1,6 +1,6 @@
 {
   "name": "react-native-numberpicker-dialog",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Show a dialog on Android, allowing to choose an option using NumberPicker",
   "main": "index.android.js",
   "scripts": {
